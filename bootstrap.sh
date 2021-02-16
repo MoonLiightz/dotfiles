@@ -221,13 +221,13 @@ setup_git() {
     git config -f ~/.gitconfig.local commit.gpgsign "${gpgsign:-$defaultGpgsign}"
 
     if [[ "$(uname)" == "Darwin" ]]; then
-        git config --global credential.helper "osxkeychain"
+        git config -f ~/.gitconfig.local credential.helper "osxkeychain"
     else
         read -rn 1 -p "Save user and password to an unencrypted file to avoid writing? [y/N] " save
         if [[ $save =~ ^([Yy])$ ]]; then
-            git config --global credential.helper "store"
+            git config -f ~/.gitconfig.local "store"
         else
-            git config --global credential.helper "cache --timeout 3600"
+            git config -f ~/.gitconfig.local "cache --timeout 3600"
         fi
     fi
 }
