@@ -1,0 +1,64 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+export ZSH=$HOME/.oh-my-zsh
+export DOTFILES=$HOME/.dotfiles
+export BLA=$HOME/.dotfiles
+
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+plugins=(
+  git
+  docker
+  docker-compose
+  httpie
+  nvm
+  yarn
+  sudo
+  zsh_reload
+  zsh-autosuggestions
+  zsh-completions
+  zsh-syntax-highlighting
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# load functions
+if [[ -d $DOTFILES/zsh/functions ]]; then
+  # for func in $DOTFILES/zsh/functions/*(:t); autoload -U $func
+  for func in $DOTFILES/zsh/functions/*(:t); source "$DOTFILES/zsh/functions/$func"
+fi
+
+# load all configs with an underline prefix
+if [[ -d $DOTFILES/zsh/conf ]]; then
+  for i in $(fd -e zsh '_' $DOTFILES/zsh/conf); do
+    source $i; 
+  done
+fi
+
+# Stash your environment variables in ~/.localrc. This means they'll stay out
+# of your main dotfiles repository (which may be public, like this one), but
+# you'll have access to them in your scripts.
+[[ -f ~/.localrc ]] && source ~/.localrc
+
+# load all other configs (without an underline prefix)
+if [[ -d $DOTFILES/zsh/conf ]]; then
+  for i in $(fd -e zsh -E '_*' '' $DOTFILES/zsh/conf); do
+    source $i; 
+  done
+fi
+
+
+# Remove duplicates from $PATH
+typeset -aU path
+
+
+# Disable link underline
+# Add at least do disable it from all other plugins
+(( ${+ZSH_HIGHLIGHT_STYLES} )) || typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[path]=none
+ZSH_HIGHLIGHT_STYLES[path_prefix]=none

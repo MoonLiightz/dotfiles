@@ -1,0 +1,10 @@
+[include]
+    # A local gitconfig, outside of version control.
+    # If the file doesn't exist it is silently ignored
+    path = ~/.gitconfig.local
+
+[pull]
+    rebase = true
+
+[credential]
+	helper = cache --timeout 3600

@@ -1,0 +1,31 @@
+# Global taps
+tap "homebrew/bundle"
+tap "homebrew/core"
+
+if OS.mac? # Mac only
+    # Taps
+    tap "homebrew/cask"
+    tap "homebrew/cask-fonts"
+
+    # Applications
+    cask "postman"
+    cask "spotify"
+    cask "firefox"
+    cask "google-chrome"
+elsif OS.linux? # Linux only
+    # brew "zsh"
+end
+
+# Global packages
+brew "httpie"
+brew "jq"
+brew "fd"
+brew "fzf"
+brew "lf"
+brew "tmux"
+brew "tree"
+brew "vim"
+brew "neofetch"
+brew "htop"
+brew "file"
+brew "zsh"
