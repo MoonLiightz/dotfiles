@@ -437,6 +437,12 @@ setup_packages() {
         warning "Can't install lf, please install it on your own."
     fi
 
+    if [[ "$(uname)" == "Darwin" ]]; then
+        check_for_software reattach-to-user-namespace
+    else
+        check_for_software xclip
+    fi
+
     return 0
 }
 

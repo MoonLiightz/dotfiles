@@ -12,8 +12,11 @@ if OS.mac? # Mac only
     cask "spotify"
     cask "firefox"
     cask "google-chrome"
+    
+    # Packages
+    brew "reattach-to-user-namespace"
 elsif OS.linux? # Linux only
-    # brew "zsh"
+    brew "xclip"
 end
 
 # Global packages
