@@ -21,7 +21,7 @@ title() {
 
 error() {
     echo -e "${COLOR_RED}Error: ${COLOR_NONE}$1"
-    exit 1
+    # exit 1
 }
 
 warning() {
@@ -36,11 +36,35 @@ success() {
     echo -e "${COLOR_GREEN}$1${COLOR_NONE}"
 }
 
+log() {
+    echo -e "${COLOR_NONE}$1"
+}
+
 # #######################################
 # Helper functions
 
 get_linkables() {
     find -H "$DOTFILES" -maxdepth 3 -name '*.symlink'
+}
+
+prompt_confirm() {
+    defaultLevel=log
+    level=${1:-$defaultLevel}
+    message=$2
+    defaultAnswer=${3:-"y"}
+
+    x=$($level "$message")
+    while true; do
+        read -rn 1 -p "$x" answer
+        [[ "$answer" != '' ]] && echo -e
+
+        case "$answer" in
+            [Yy]) return 0 ;;
+            [Nn]) return 1 ;;
+            '') [[ $defaultAnswer =~ ^([Yy])$ ]] && return 0 || return 1 ;;
+            *) error "Wrong input."
+        esac
+    done
 }
 
 create_symlink() {
@@ -49,9 +73,7 @@ create_symlink() {
     should_symlink=true
 
     if [ -e "$target" ]; then
-        read -rn 1 -p "$(warning ~${target#$HOME}' already exists... Overwrite? [y/N] ')" overwrite
-        echo -e # \n, next line
-        if [[ $overwrite =~ ^([Yy])$ ]]; then
+        if prompt_confirm "warning" ~${target#$HOME}" already exists... Overwrite? [y/N] " "n"; then
             rm -rf "$target"
             info "Removed $target"
         else
@@ -66,17 +88,9 @@ create_symlink() {
 }
 
 prompt_install() {
-    default=y
     package=$1
 
-    read -rn 1 -p "$(warning $package' is not installed. Would you like to install it? [Y/n] ')" install
-    echo -e # \n, next line
-    while [[ ! ${install:-$default} =~ ^([Yy])$ ]] && [[ ! ${install:-$default} =~ ^([Nn])$ ]] ; do
-        read -rn 1 -p "$(error 'Wrong input. Would you like to install '$package'? [Y/n] ')" install
-        echo -e # \n, next line
-    done
-
-    if [[ ${install:-$default} =~ ^([Yy])$ ]]; then
+    if prompt_confirm "warning" $package" is not installed. Would you like to install it [Y/n] " "y"; then
         info "Start the installation of $package"
 
         if [[ -x "$(command -v brew)" ]]; then
@@ -130,6 +144,22 @@ backup_setup() {
 setup_symlinks() {
     title "Creating symlinks"
 
+    log "Creating symlinks will do the following:"
+    log "- Creates a symlink of dotfiles to ~/.dotfiles if you have not cloned the repo to this path"
+    log "- Creates a symlink for all *.symlink files in your home directory"
+    log "- Creates a config folder in your home directory (~/.config) when it doesn't already exist"
+    log "- Creates a symlink of every config folder from this repo in your ~/.config directory"
+    echo -e
+
+    if ! prompt_confirm "warning" "Would you like to continue? [Y/n]: " "y"; then
+        echo -e
+        success "Abort."
+        exit 0
+    fi
+
+    echo -e
+    info "Starting..."
+
     if [[ ! -e "$HOME/.dotfiles" ]]; then
         info "Adding symlink to dotfiles at $HOME/.dotfiles"
         ln -s "$DOTFILES" ~/.dotfiles
@@ -157,6 +187,20 @@ setup_symlinks() {
 
 setup_git() {
     title "Setting up Git"
+
+    log "Setting up git will do the following:"
+    log "- Asks you a few questions about yourself and writes them to ~/.gitconfig.local,"
+    log "  which will be sourced by ~/.giconfig if you use the gitconfig from this repo"
+    echo -e
+
+    if ! prompt_confirm "warning" "Would you like to continue? [Y/n]: " "y"; then
+        echo -e
+        success "Abort."
+        exit 0
+    fi
+
+    echo -e
+    info "Starting..."
 
     defaultName=$(git config user.name)
     defaultEmail=$(git config user.email)
@@ -191,6 +235,20 @@ setup_git() {
 setup_shell() {
     title "Configuring shell"
 
+    log "Configuring shell will do the following:"
+    log "- Adds zsh to /etc/shells when it is missing (sudo privileges are required)"
+    log "- Sets your default shell to zsh"
+    echo -e
+
+    if ! prompt_confirm "warning" "Would you like to continue? [Y/n]: " "y"; then
+        echo -e
+        success "Abort."
+        exit 0
+    fi
+
+    echo -e
+    info "Starting..."
+
     [[ -n "$(command -v brew)" ]] && zsh_path="$(brew --prefix)/bin/zsh" || zsh_path="$(which zsh)"
     if ! grep -q "$zsh_path" /etc/shells; then
         info "adding $zsh_path to /etc/shells"
@@ -208,6 +266,24 @@ setup_shell() {
 
 setup_zsh() {
     title "Setting up zsh"
+
+    log "Setting up zsh will do the following:"
+    log "- Checks if zsh is installed and asks for installation if it is not (sudo privileges may be required)"
+    log "- Installs oh-my-zsh to ~/.oh-my-zsh"
+    log "- Installs the zsh plugin zsh-completions to ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions"
+    log "- Installs the zsh plugin zsh-autosuggestions to ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+    log "- Installs the zsh plugin zsh-syntax-highlighting to ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+    log "- Installs the zsh theme powerlevel10k to ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/themes/powerlevel10k"
+    echo -e
+
+    if ! prompt_confirm "warning" "Would you like to continue? [Y/n]: " "y"; then
+        echo -e
+        success "Abort."
+        exit 0
+    fi
+
+    echo -e
+    info "Starting..."
 
     check_for_software zsh
 
@@ -252,6 +328,21 @@ setup_zsh() {
 setup_homebrew() {
     title "Setting up Homebrew"
 
+    log "Setting up homebrew (linuxbrew on linux) will do the following:"
+    log "- Checks if brew is installed and starts the installation if it is not"
+    log "- Disables brew analytics"
+    log "- Installs packages through brew bundle"
+    echo -e
+
+    if ! prompt_confirm "warning" "Would you like to continue? [Y/n]: " "y"; then
+        echo -e
+        success "Abort."
+        exit 0
+    fi
+
+    echo -e
+    info "Starting..."
+
     if ! [[ -x "$(command -v brew)" ]]; then
         info "Homebrew is not installed, installing..."
         curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash --login
@@ -278,6 +369,19 @@ setup_homebrew() {
 
 setup_packages() {
     title "Setting up packages"
+
+    log "Setting up packages will do the following:"
+    log "- Checks if a list of packages are installed and asks for installation if not (sudo privileges may be required)"
+    echo -e
+
+    if ! prompt_confirm "warning" "Would you like to continue? [Y/n]: " "y"; then
+        echo -e
+        success "Abort."
+        exit 0
+    fi
+
+    echo -e
+    info "Starting..."
 
     check_for_software htop
     check_for_software zsh
