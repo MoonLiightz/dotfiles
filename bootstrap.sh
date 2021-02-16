@@ -214,26 +214,38 @@ setup_zsh() {
     if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
         info "Installing oh-my-zsh"
         curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash
-    fi
-    
-    if [[ ! -d "${ZSH_CUSTOM:=$HOME/.oh-my-zsh/custom}/plugins/zsh-completions" ]]; then
-        info "Installing oh-my-zsh plugin zsh-completions"
-        git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions
+    else
+        info "oh-my-zsh is already installed"
     fi
 
-    if [[ ! -d "${ZSH_CUSTOM:=$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]]; then
-        info "Installing oh-my-zsh plugin zsh-autosuggestions"
-        git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    zsh_custom_path=$(eval echo ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom})
+    
+    if [[ ! -d "$zsh_custom_path/plugins/zsh-completions" ]]; then
+        info "Installing zsh plugin zsh-completions"
+        git clone https://github.com/zsh-users/zsh-completions $zsh_custom_path/plugins/zsh-completions
+    else
+        info "zsh-completions is already installed"
     fi
 
-    if [[ ! -d "${ZSH_CUSTOM:=$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]]; then
-        info "Installing oh-my-zsh plugin zsh-syntax-highlighting"
-        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    if [[ ! -d "$zsh_custom_path/plugins/zsh-autosuggestions" ]]; then
+        info "Installing zsh plugin zsh-autosuggestions"
+        git clone https://github.com/zsh-users/zsh-autosuggestions $zsh_custom_path/plugins/zsh-autosuggestions
+    else
+        info "zsh-autosuggestions is already installed"
+    fi
+
+    if [[ ! -d "$zsh_custom_path/plugins/zsh-syntax-highlighting" ]]; then
+        info "Installing zsh plugin zsh-syntax-highlighting"
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $zsh_custom_path/plugins/zsh-syntax-highlighting
+    else
+        info "zsh-syntax-highlighting is already installed"
     fi
     
-    if [[ ! -d "${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/themes/powerlevel10k" ]]; then
-        info "Installing oh-my-zsh theme powerlevel10k"
-        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+    if [[ ! -d "$zsh_custom_path/themes/powerlevel10k" ]]; then
+        info "Installing zsh theme powerlevel10k"
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $zsh_custom_path/themes/powerlevel10k
+    else
+        info "powerlevel10k is already installed"
     fi
 }
 
