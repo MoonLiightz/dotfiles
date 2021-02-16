@@ -44,7 +44,7 @@ resetAutoStash=$(git config --bool rebase.autoStash 2>/dev/null)
 git config rebase.autoStash true
 
 last_commit=$(git rev-parse HEAD)
-if [[ "$(git pull --rebase --stat origin main)" ]]; then
+if [[ "$(git pull --rebase origin main)" ]]; then
     echo -e ''
     if [[ "$(git rev-parse HEAD)" = "$last_commit" ]]; then
         info "Dotfiles are already up-to-date"
