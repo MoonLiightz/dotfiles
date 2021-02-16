@@ -139,6 +139,8 @@ backup_setup() {
             warning "$filename does not exist at this location or is a symlink"
         fi
     done
+
+    return 0
 }
 
 setup_symlinks() {
@@ -154,7 +156,7 @@ setup_symlinks() {
     if ! prompt_confirm "warning" "Would you like to continue? [Y/n]: " "y"; then
         echo -e
         success "Abort."
-        exit 0
+        return 1
     fi
 
     echo -e
@@ -183,6 +185,8 @@ setup_symlinks() {
         target="$HOME/.config/$(basename "$config")"
         create_symlink $config $target 
     done
+
+    return 0
 }
 
 setup_git() {
@@ -196,7 +200,7 @@ setup_git() {
     if ! prompt_confirm "warning" "Would you like to continue? [Y/n]: " "y"; then
         echo -e
         success "Abort."
-        exit 0
+        return 1
     fi
 
     echo -e
@@ -230,6 +234,8 @@ setup_git() {
             git config -f ~/.gitconfig.local "cache --timeout 3600"
         fi
     fi
+
+    return 0
 }
 
 setup_shell() {
@@ -243,7 +249,7 @@ setup_shell() {
     if ! prompt_confirm "warning" "Would you like to continue? [Y/n]: " "y"; then
         echo -e
         success "Abort."
-        exit 0
+        return 1
     fi
 
     echo -e
@@ -262,6 +268,8 @@ setup_shell() {
             warning "Cant't set the default shell to $zsh_path. Please fix this and change the default shell to zsh by yourself."
         fi
     fi
+
+    return 0
 }
 
 setup_zsh() {
@@ -279,7 +287,7 @@ setup_zsh() {
     if ! prompt_confirm "warning" "Would you like to continue? [Y/n]: " "y"; then
         echo -e
         success "Abort."
-        exit 0
+        return 1
     fi
 
     echo -e
@@ -323,6 +331,8 @@ setup_zsh() {
     else
         info "powerlevel10k is already installed"
     fi
+
+    return 0
 }
 
 setup_homebrew() {
@@ -337,7 +347,7 @@ setup_homebrew() {
     if ! prompt_confirm "warning" "Would you like to continue? [Y/n]: " "y"; then
         echo -e
         success "Abort."
-        exit 0
+        return 1
     fi
 
     echo -e
@@ -365,6 +375,8 @@ setup_homebrew() {
         echo -e
         "$(brew --prefix)"/opt/fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
     fi
+
+    return 0
 }
 
 setup_packages() {
@@ -377,7 +389,7 @@ setup_packages() {
     if ! prompt_confirm "warning" "Would you like to continue? [Y/n]: " "y"; then
         echo -e
         success "Abort."
-        exit 0
+        return 1
     fi
 
     echo -e
@@ -424,6 +436,8 @@ setup_packages() {
     if [[ $? -ne 0 ]]; then
         warning "Can't install lf, please install it on your own."
     fi
+
+    return 0
 }
 
 # #######################################
@@ -454,7 +468,13 @@ main() {
             ;;
         all)
             setup_symlinks
-            [[ $2 = "--no-homebrew-setup" ]] && setup_packages || setup_homebrew
+            
+            if [[ "$2" = "--no-homebrew-setup" ]]; then
+                setup_packages
+            else 
+                setup_homebrew
+            fi
+            
             setup_zsh
             setup_shell
             setup_git
@@ -465,8 +485,10 @@ main() {
             ;;
     esac
 
-    echo -e
-    success "Done."
+    if [[ $? -eq 0 ]] || [[ "$1" = "all" ]]; then
+        echo -e
+        success "Done."
+    fi
 }
 
 # Call main
