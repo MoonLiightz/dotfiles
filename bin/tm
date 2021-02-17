@@ -4,16 +4,22 @@
 # https://github.com/nicknisi/dotfiles/blob/1f5a48fc69952a54fb44c6c9bdd1dd249cf0c9f1/bin/tm
 
 # abort if we're already inside a TMUX session
-[ "$TMUX" == "" ] || exit 0
+# [ "$TMUX" == "" ] || exit 0
 # startup a "default" session if non currently exists
 # tmux has-session -t _default || tmux new-session -s _default -d
 
-# present menu for user to choose which workspace to open
-PS3="Please choose your session: "
-# shellcheck disable=SC2207
-IFS=$'\n' && options=($(tmux list-sessions -F "#S" 2>/dev/null) "New Session" "zsh")
-echo "Available sessions"
-echo "------------------"
+if [[ "$TMUX" = "" ]]; then
+    # present menu for user to choose which workspace to open
+    PS3="Please choose your session: "
+    # shellcheck disable=SC2207
+    IFS=$'\n' && options=($(tmux list-sessions -F "#S" 2>/dev/null) "New Session" "zsh")
+else
+    PS3="Please choose your option: "
+    IFS=$'\n' && options=("enable automatic-rename")
+fi
+
+echo "What would you like to do?"
+echo "--------------------------"
 echo " "
 select opt in "${options[@]}"
 do
@@ -25,8 +31,17 @@ do
             ;;
         "zsh")
             zsh --login
-            break;;
+            break
+            ;;
+        "enable automatic-rename")
+            for session_window in $(tmux list-windows -a -F '#{session_name}:#{window_index}'); do
+                tmux set-window-option -t $session_window automatic-rename on
+                echo "automatic-rename enabled for $session_window"
+            done
+            break
+            ;;
         *)
+            [[ "$TMUX" = "" ]] || exit 1
             tmux attach-session -t "$opt"
             break
             ;;
