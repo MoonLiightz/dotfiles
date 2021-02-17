@@ -663,13 +663,13 @@ run 'cut -c3- ~/.tmux.conf | sh -s _apply_configuration'
 # _loadavg() {
 #   case "$_uname_s" in
 #     *Darwin*|*FreeBSD*)
-#       tmux set -g @loadavg "$(sysctl -q -n vm.loadavg | cut -d' ' -f2)"
+#       tmux set -g @loadavg "$(sysctl -q -n vm.loadavg | cut -d' ' -f2,3,4)"
 #       ;;
 #     *Linux*|*CYGWIN*)
-#       tmux set -g @loadavg "$(cut -d' ' -f1 < /proc/loadavg)"
+#       tmux set -g @loadavg "$(cut -d' ' -f1,2,3 < /proc/loadavg)"
 #       ;;
 #     *OpenBSD*)
-#       tmux set -g @loadavg "$(sysctl -q -n vm.loadavg | cut -d' ' -f1)"
+#       tmux set -g @loadavg "$(sysctl -q -n vm.loadavg | cut -d' ' -f1,2,3)"
 #       ;;
 #   esac
 # }
