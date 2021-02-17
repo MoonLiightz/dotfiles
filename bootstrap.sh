@@ -376,6 +376,14 @@ setup_homebrew() {
         "$(brew --prefix)"/opt/fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
     fi
 
+    # install tpm
+    if [[ ! -d "$HOME/.tmux/plugins/tpm" ]]; then
+        info "Installing tmux plugin manager tpm"
+        git clone https://github.com/tmux-plugins/tpm.git $HOME/.tmux/plugins/tpm
+    else
+        info "tpm is already installed"
+    fi
+
     return 0
 }
 
@@ -441,6 +449,14 @@ setup_packages() {
         check_for_software reattach-to-user-namespace
     else
         check_for_software xclip
+    fi
+
+    # install tpm
+    if [[ ! -d "$HOME/.tmux/plugins/tpm" ]]; then
+        info "Installing tmux plugin manager tpm"
+        git clone https://github.com/tmux-plugins/tpm.git $HOME/.tmux/plugins/tpm
+    else
+        info "tpm is already installed"
     fi
 
     return 0
