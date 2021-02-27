@@ -6,3 +6,5 @@
 [pull]
     rebase = true
 
+[merge]
+	ff = false
