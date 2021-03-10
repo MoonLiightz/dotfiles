@@ -7,7 +7,6 @@ fi
 
 export ZSH=$HOME/.oh-my-zsh
 export DOTFILES=$HOME/.dotfiles
-export BLA=$HOME/.dotfiles
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
