@@ -32,7 +32,7 @@ export EDITOR="$(which vim)"
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
-export FZF_DEFAULT_COMMAND='fd --type file' # use fd to respect gitignore
+export FZF_DEFAULT_COMMAND='fd --hidden --exclude .git --type file' # use fd to respect gitignore
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # nvm
