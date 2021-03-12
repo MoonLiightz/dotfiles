@@ -229,9 +229,9 @@ setup_git() {
     else
         read -rn 1 -p "Save user and password to an unencrypted file to avoid writing? [y/N] " save
         if [[ $save =~ ^([Yy])$ ]]; then
-            git config -f ~/.gitconfig.local "store"
+            git config -f ~/.gitconfig.local credential.helper "store"
         else
-            git config -f ~/.gitconfig.local "cache --timeout 3600"
+            git config -f ~/.gitconfig.local credential.helper "cache --timeout 3600"
         fi
     fi
 
