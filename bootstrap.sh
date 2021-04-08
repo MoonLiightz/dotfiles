@@ -403,6 +403,7 @@ setup_packages() {
     echo -e
     info "Starting..."
 
+    check_for_software curl
     check_for_software htop
     check_for_software zsh
     check_for_software tmux

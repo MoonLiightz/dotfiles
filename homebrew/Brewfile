@@ -20,6 +20,7 @@ elsif OS.linux? # Linux only
 end
 
 # Global packages
+brew "curl"
 brew "httpie"
 brew "jq"
 brew "fd"
