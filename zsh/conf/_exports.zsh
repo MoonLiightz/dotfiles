@@ -52,9 +52,6 @@ prepend_path /usr/local/go/bin
 export GEM_HOME=$HOME/gems
 prepend_path $HOME/gems/bin
 
-# Home local bin
-prepend_path $HOME/.local/bin
-
 # lf icons
 export LF_ICONS="\
 tw=:\
