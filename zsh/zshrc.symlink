@@ -20,7 +20,6 @@ plugins=(
   yarn
   sudo
   extract
-  zsh_reload
   zsh-autosuggestions
   zsh-completions
   zsh-syntax-highlighting

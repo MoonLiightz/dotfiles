@@ -21,3 +21,5 @@ alias myip="curl https://ipinfo.io/json | jq"
 
 alias zshconf="$EDITOR $HOME/.zshrc"
 alias localconf="$EDITOR $HOME/.localrc"
+
+alias src="omz reload"
