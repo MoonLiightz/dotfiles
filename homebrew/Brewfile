@@ -12,6 +12,13 @@ if OS.mac? # Mac only
     cask "spotify"
     cask "firefox"
     cask "google-chrome"
+    cask "alfred"
+    cask "alt-tab"
+    cask "mos"
+    cask "numi"
+    cask "forklift"
+    cask "rectangle"
+    cask "appcleaner"
     
     # Packages
     brew "reattach-to-user-namespace"
@@ -33,3 +40,4 @@ brew "neofetch"
 brew "htop"
 brew "file"
 brew "zsh"
+brew "exa"
