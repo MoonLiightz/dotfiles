@@ -3,9 +3,16 @@ if [[ "$(uname)" = "Linux" ]]; then
 	alias ll='ls --color=auto -alh'
 	alias la='ls --color=auto -la'
 elif [[ "$(uname)" = "Darwin" ]]; then
-	alias ls='ls -G'
-	alias ll='ls -G -alh'
-	alias la='ls -G -la'
+	if [[ -x "$(command -v exa)" ]]; then
+		alias ls="exa -l -g --icons --git"
+		alias ll="exa -la -g --icons --git"
+		alias llt="exa -la -g --tree --icons --git"
+		alias lltd="llt --ignore-glob 'node_modules|.git|.next|.vscode'"
+	else
+		alias ls='ls -G'
+		alias ll='ls -G -alh'
+		alias la='ls -G -la'
+	fi
 fi
 
 alias grep='grep --color=auto'
