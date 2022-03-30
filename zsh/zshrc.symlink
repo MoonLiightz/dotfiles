@@ -8,6 +8,7 @@ fi
 export ZSH=$HOME/.oh-my-zsh
 export DOTFILES=$HOME/.dotfiles
 export PATH=$HOME/.local/bin:$PATH
+[[ -d /opt/Homebrew/bin ]] && export PATH=/opt/Homebrew/bin:$PATH
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
