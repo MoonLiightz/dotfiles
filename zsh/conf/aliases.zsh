@@ -24,7 +24,7 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
 alias du='du -sh' # calculate disk usage for a folder
-alias myip="curl https://ipinfo.io/json | jq"
+alias myip="curl -s https://ipinfo.io/json | jq"
 
 alias zshconf="$EDITOR $HOME/.zshrc"
 alias localconf="$EDITOR $HOME/.localrc"
