@@ -21,6 +21,7 @@ plugins=(
   yarn
   sudo
   extract
+  fzf-tab
   zsh-autosuggestions
   zsh-completions
   zsh-syntax-highlighting
