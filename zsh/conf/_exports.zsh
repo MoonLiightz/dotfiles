@@ -35,6 +35,9 @@ export EDITOR="$(which vim)"
 export FZF_DEFAULT_COMMAND='fd --hidden --exclude .git --type file' # use fd to respect gitignore
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
+# less
+export LESSOPEN='|~/.lessfilter %s'
+
 # nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
