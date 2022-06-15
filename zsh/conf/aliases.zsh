@@ -1,3 +1,7 @@
+# Some aliases from the ZSH plugins we don't like to use for various reasons. 
+# We "unalias" them here.
+unalias yh	# conflicts with "yh - YAML Highlighter"
+
 if [[ "$(uname)" = "Linux" ]]; then
 	alias ls='ls --color=auto'
 	alias ll='ls --color=auto -alh'
