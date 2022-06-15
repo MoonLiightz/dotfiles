@@ -7,7 +7,7 @@ elif [[ "$(uname)" = "Darwin" ]]; then
 		alias ls="exa -l -g --icons --git"
 		alias ll="exa -la -g --icons --git"
 		alias llt="exa -la -g --tree --icons --git"
-		alias lltd="llt --ignore-glob 'node_modules|.git|.next|.vscode'"
+		alias lltd="llt --ignore-glob 'node_modules|.git|.next|.vscode|.idea'"
 	else
 		alias ls='ls -G'
 		alias ll='ls -G -alh'
