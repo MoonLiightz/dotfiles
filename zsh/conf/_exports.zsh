@@ -20,6 +20,7 @@ if [[ -x "$(command -v brew)" ]]; then
     export INFOPATH="$HOMEBREW_PREFIX/share/info:${INFOPATH}";
   fi
   export HOMEBREW_NO_ANALYTICS=1
+  eval "$(brew shellenv)"
 fi
 
 # Set default editor to vim, can be overwritten in ~/.localrc
