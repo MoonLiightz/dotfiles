@@ -9,7 +9,7 @@ fpath=(
 # Add dotfiles bin to PATH
 prepend_path $DOTFILES/bin
 
-if [[ ! -x "$(command -v brew)" ]]; then
+if [[ -x "$(command -v brew)" ]]; then
   if [[ "$(uname)" == "Linux" ]]; then
     export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew";
     export HOMEBREW_CELLAR="$HOMEBREW_PREFIX/Cellar";
