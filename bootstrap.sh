@@ -400,6 +400,9 @@ setup_packages() {
         return 1
     fi
 
+    info "Update sources"
+    sudo apt-get update
+
     echo -e
     info "Starting..."
 
