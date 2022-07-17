@@ -8,6 +8,8 @@ COLOR_RED="\033[1;31m"
 COLOR_PURPLE="\033[1;35m"
 COLOR_YELLOW="\033[1;33m"
 COLOR_NONE="\033[0m"
+ARCH="$(uname -m)"
+OS="$(uname -s)"
 
 export PATH="$DOTFILES/bin:$PATH"
 
@@ -441,9 +443,48 @@ setup_packages() {
     fi
 
     # lf
-    check_for_software lf
-    if [[ $? -ne 0 ]]; then
-        warning "Can't install lf, please install it on your own."
+    if [[ ! -x "$(command -v lf)" ]]; then
+        if prompt_confirm "warning" "lf is not installed. Would you like to install it [Y/n] " "y"; then
+            info "Start the installation of lf"
+
+            local repo_full_url
+            local repo_filename
+            local repo_arch
+            local repo_os
+
+            case $ARCH in
+                amd64 | x86_64) repo_arch="amd64" ;;
+                arm) repo_arch="arm" ;;
+                arm64) repo_arch="arm64" ;;
+                *) warning "Can't detect your architecture, please install lf on your own." ;;
+            esac
+
+            case $OS in
+                Linux) repo_os="linux" ;;
+                Darwin) repo_os="darwin" ;;
+                FreeBSD) repo_os="freebsd" ;;
+                *) warning "Can't detect your os, please install lf on your own." ;;
+            esac
+            
+            repo_filename="lf-${repo_os}-${repo_arch}.tar.gz"
+            repo_full_url="https://github.com/gokcehan/lf/releases/latest/download/${repo_filename}"
+            curl -sL "$repo_full_url" > /tmp/"$repo_filename"
+            chmod 755 /tmp/"$repo_filename"
+            
+            if [ ! -d "$HOME"/.local/bin ]; then
+                mkdir -p "$HOME"/.local/bin
+            fi
+            
+            tar xzf /tmp/"$repo_filename" -C "$HOME"/.local/bin/
+            rm /tmp/"$repo_filename"
+
+            if [ ! -f "$HOME"/.local/bin/lf ]
+            then
+                warning "Can't install lf, please install it on your own."
+            fi
+        fi
+    else
+        info "lf is already installed"
     fi
 
     if [[ "$(uname)" == "Darwin" ]]; then
