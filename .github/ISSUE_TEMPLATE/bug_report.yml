@@ -1,0 +1,52 @@
+name: Bug report
+description: Create a report to help us improve this dotfiles
+labels: [ 'type: bug', 'status: needs confirmation' ]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before opening a bug report, please search for the behaviour in the existing issues. 
+        
+        ---
+        
+        Thank you for taking the time to file a bug report. To address this bug as fast as possible, we need some information.
+  - type: textarea
+    id: system
+    attributes:
+      label: System information
+      description: Please provide as much information as possible about your system that can help us to solve the bug.
+      placeholder: |
+        OS: macOS Monterey 12.4
+        Arch: arm64
+        Package Manager: Homebrew 3.5.4
+        zsh: zsh 5.9 (arm-apple-darwin21.4.0)
+        
+        And so on, depending on the bug
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Bug description
+      description: What happened? Please describe the bug as detailed as possible.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Which steps do we need to take to reproduce this bug?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+        label: Logs, Screenshots, Captures, etc
+        description: Anything additional that can help to solve the bug.
+    validations:
+        required: false
