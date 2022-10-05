@@ -96,11 +96,23 @@ prompt_install() {
         if [[ -x "$(command -v brew)" ]]; then
             brew install $1
         elif [[ -x "$(command -v apt-get)" ]]; then
-            sudo apt-get install $1 -y
+            if [[ "$(id -u)" -eq 0 ]]; then
+                apt-get install $1 -y
+            else
+                sudo apt-get install $1 -y
+            fi
         elif [[ -x "$(command -v pkg)" ]]; then
-            sudo pkg install $1
+            if [[ "$(id -u)" -eq 0 ]]; then
+                pkg install $1
+            else
+                sudo pkg install $1
+            fi
         elif [[ -x "$(command -v pacman)" ]]; then
-            sudo pacman -S $1
+            if [[ "$(id -u)" -eq 0 ]]; then
+                pacman -S $1
+            else
+                sudo pacman -S $1
+            fi
         else
             warning "Cannot detect your package manager. Please install $package on your own and run this script again." 
         fi
@@ -401,6 +413,14 @@ setup_packages() {
     fi
 
     echo -e
+    info "Preparing..."
+    if ! [[ "$(id -u)" -eq 0 ]]; then
+        if ! [[ -x "$(command -v sudo)" ]]; then
+            error "You are not a root user and sudo isn't installed."
+            return 1
+        fi
+    fi
+
     info "Starting..."
 
     check_for_software curl
