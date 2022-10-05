@@ -336,6 +336,13 @@ setup_zsh() {
     else
         info "zsh-syntax-highlighting is already installed"
     fi
+
+    if [[ ! -d "$zsh_custom_path/plugins/fzf-tab" ]]; then
+        info "Installing zsh plugin fzf-tab"
+        git clone https://github.com/Aloxaf/fzf-tab $zsh_custom_path/plugins/fzf-tab
+    else
+        info "fzf-tab is already installed"
+    fi
     
     if [[ ! -d "$zsh_custom_path/themes/powerlevel10k" ]]; then
         info "Installing zsh theme powerlevel10k"
