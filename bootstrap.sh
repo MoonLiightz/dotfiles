@@ -87,6 +87,20 @@ create_symlink() {
     fi
 }
 
+update_sources() {
+    if [[ -x "$(command -v brew)" ]]; then
+        brew update
+    elif [[ -x "$(command -v apt-get)" ]]; then
+        sudo apt-get update
+    elif [[ -x "$(command -v pkg)" ]]; then
+        sudo pkg update
+    elif [[ -x "$(command -v pacman)" ]]; then
+        sudo pacman -Syy
+    else
+        warning "Cannot detect your package manager." 
+    fi
+}
+
 prompt_install() {
     package=$1
 
@@ -418,6 +432,9 @@ setup_packages() {
         success "Abort."
         return 1
     fi
+
+    info "Update sources"
+    update_sources
 
     echo -e
     info "Preparing..."
