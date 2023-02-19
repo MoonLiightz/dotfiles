@@ -34,7 +34,7 @@ export EDITOR="$(which vim)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh
 export FZF_DEFAULT_COMMAND="fd --hidden --exclude .git --type file --follow" # use fd to respect gitignore
-# export FZF_DEFAULT_OPTIONS=""
+export FZF_DEFAULT_OPTS="--bind alt-k:preview-page-up,alt-j:preview-page-down"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--height 60% --preview 'less {}'"
 export FZF_ALT_C_COMMAND="fd --hidden --exclude .git --type directory"
