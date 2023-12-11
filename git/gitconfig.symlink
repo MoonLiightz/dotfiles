@@ -3,6 +3,9 @@
     # If the file doesn't exist it is silently ignored
     path = ~/.gitconfig.local
 
+[commit]
+    verbose = true
+
 [pull]
     rebase = true
 
