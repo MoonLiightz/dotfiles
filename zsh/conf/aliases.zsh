@@ -7,10 +7,10 @@ if [[ "$(uname)" = "Linux" ]]; then
 	alias ll='ls --color=auto -alh'
 	alias la='ls --color=auto -la'
 elif [[ "$(uname)" = "Darwin" ]]; then
-	if [[ -x "$(command -v exa)" ]]; then
-		alias ls="exa -l -g --icons --git"
-		alias ll="exa -la -g --icons --git"
-		alias llt="exa -la -g --tree --icons --git"
+	if [[ -x "$(command -v eza)" ]]; then
+		alias ls="eza -l -g --icons --git"
+		alias ll="eza -la -g --icons --git"
+		alias llt="eza -la -g --tree --icons --git"
 		alias lltd="llt --ignore-glob 'node_modules|.git|.next|.vscode|.idea'"
 	else
 		alias ls='ls -G'

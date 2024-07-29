@@ -28,7 +28,7 @@ zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|
 # zstyle ':fzf-tab:complete:brew-(install|uninstall|search|info):*-argument-rest' fzf-preview 'brew info $word'
 
 # preview some basics using less
-zstyle ':fzf-tab:complete:(ls|exa|cat|chmod|tail|cd|mv|rm|vim|nano):*' fzf-preview 'less -R ${(Q)realpath}'
+zstyle ':fzf-tab:complete:(ls|eza|cat|chmod|tail|cd|mv|rm|vim|nano):*' fzf-preview 'less -R ${(Q)realpath}'
 
 # git
 zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview 'echo $realpath; git diff $realpath | delta'

@@ -5,7 +5,7 @@ category=${mime%%/*}
 kind=${mime##*/}
 
 if [ -d "$1" ]; then
-	exa --git -hla --color=always --icons "$1"
+	eza --git -hla --color=always --icons "$1"
 elif [ "$category" = image ]; then
 	chafa "$1"
 	exiftool "$1"
@@ -18,4 +18,4 @@ else
     # lesspipe.sh "$1" | bat --color=always
     bat --color=always "$1"
 fi
-# lesspipe.sh don't use exa, bat and chafa, it use ls and exiftool. so we create a lessfilter.
+# lesspipe.sh don't use eza, bat and chafa, it use ls and exiftool. so we create a lessfilter.

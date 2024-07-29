@@ -38,7 +38,7 @@ export FZF_DEFAULT_OPTS="--bind alt-k:preview-page-up,alt-j:preview-page-down"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--height 60% --preview 'less {}'"
 export FZF_ALT_C_COMMAND="fd --hidden --exclude .git --type directory"
-export FZF_ALT_C_OPTS="--height 100% --preview 'exa -lah --tree --icons --git --ignore-glob \"node_modules|.git|.next|.vscode|.idea\" {}'"
+export FZF_ALT_C_OPTS="--height 100% --preview 'eza -lah --tree --icons --git --ignore-glob \"node_modules|.git|.next|.vscode|.idea\" {}'"
 # export FZF_COMPLETION_TRIGGER=''
 
 # less
