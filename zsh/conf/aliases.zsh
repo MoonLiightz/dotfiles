@@ -27,10 +27,24 @@ alias ...='cd ../..'
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
-alias du='du -sh' # calculate disk usage for a folder
-alias myip="curl -s https://ipinfo.io/json | jq"
+alias src="omz reload"
 
 alias zshconf="$EDITOR $HOME/.zshrc"
 alias localconf="$EDITOR $HOME/.localrc"
 
-alias src="omz reload"
+alias tmm="tmux-sessionizer main"
+alias du='du -sh' # calculate disk usage for a folder
+alias myip="curl -s https://ipinfo.io/json | jq"
+alias lg="lazygit"
+
+[[ -x "$(command -v batcat)" ]] && alias bat='batcat'
+
+# kubectl / kubernetes
+alias k="kubectl"
+alias kg="kubectl get"
+alias kgp="kubectl get pod"
+alias kgpow="kubectl get pod -o wide"
+alias kgall="kubectl get --all-namespaces all"
+alias kdp="kubectl describe pod"
+alias kctx="kubectx"
+alias kns="kubens"
