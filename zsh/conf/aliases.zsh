@@ -35,6 +35,7 @@ alias localconf="$EDITOR $HOME/.localrc"
 alias tmm="tmux-sessionizer main"
 alias du='du -sh' # calculate disk usage for a folder
 alias myip="curl -s https://ipinfo.io/json | jq"
+alias myipv6="curl -s https://v6.ipinfo.io/json | jq"
 alias lg="lazygit"
 
 [[ -x "$(command -v batcat)" ]] && alias bat='batcat'
